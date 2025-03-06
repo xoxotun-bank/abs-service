@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+
+  database:
+    image: 'postgres:14-alpine'
+    container_name: 'postgres-db-abs'
+    environment:
+      - POSTGRES_USER=npca
+      - POSTGRES_PASSWORD=npca
+      - POSTGRES_DB=npca
+    volumes:
+      - type: bind
+        source: ./init.sql
+        target: /docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+  redis:
+    image: 'redis:latest'
+    restart: always
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=npca
+      - REDIS_PORT=6379
